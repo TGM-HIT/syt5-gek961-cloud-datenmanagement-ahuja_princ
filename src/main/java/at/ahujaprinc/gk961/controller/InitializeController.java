@@ -31,7 +31,7 @@ public class InitializeController {
         InputStream inputStream =
             InitializeController.class.getClassLoader().getResourceAsStream("user.json")) {
       UserInit[] users =
-          objectMapper.readValue(new File("user.json"), UserInit[].class);
+          objectMapper.readValue(inputStream, UserInit[].class);
       for (UserInit user : users) {
         String name = user.getName();
         String username = user.getUsername();
