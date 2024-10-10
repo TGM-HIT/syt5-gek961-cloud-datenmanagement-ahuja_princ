@@ -61,6 +61,8 @@ Notiz: Für das deployment des Springboot Programmes wurden wir von [Melissa Wal
 
 Das [docker-compose.yml](/deployment/docker-compose.yml) File enthält die dafür notwendigen Konfigurationsschritte, wie DB Password oder notwendige Ports.
 
+Nach dem deployen ist der `PUT` Request an `/init` zu schicken, dies wird einen Basis Datensatz aus der JSON in resources/user.json in die DB laden.
+
 #### Fehler
 Zuerst wurde nur die JAR erstellt, jedoch hat der Server dann ein Exit mit Code 0 gehabt, weil das JAR-File nicht ausgeführt wurde. [b]
 
