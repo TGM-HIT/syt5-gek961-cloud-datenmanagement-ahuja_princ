@@ -4,6 +4,7 @@ import at.ahujaprinc.gk961.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -37,36 +38,41 @@ public class JWT {
         .compact();
   }
 
-  // Validate JWT token and retrieve claims
-  public static Claims validateToken(String token) {
-    return Jwts.parserBuilder()
-        .setSigningKey(SECRET)
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
-  }
-
-  // Check if the token has expired
-  public static boolean isTokenExpired(String token) {
-    return validateToken(token).getExpiration().before(new Date());
-  }
-
-  private static Optional<Claims> extractAllClaims(String token) {
+  public static boolean validateToken(String token) {
     try {
-      return Optional.of(Jwts.parserBuilder()
-                             .setSigningKey(SECRET)
-                             .build()
-                             .parseClaimsJws(token)
-                             .getBody());
+      Jwts.parserBuilder()
+          .setSigningKey(SECRET)
+          .build()
+          .parseClaimsJws(token)
+          .getBody();
+      return true;
     } catch (ExpiredJwtException e) {
-      System.err.println("JWT token expired");
-      return Optional.empty();
+      System.err.println("JWT token has expired: " + e.getMessage());
+    } catch (MalformedJwtException e) {
+      // Invalid token structure
+      System.err.println("Invalid JWT token: " + e.getMessage());
+    } catch (IllegalArgumentException e) {
+      // Token is null or empty
+      System.err.println("JWT token is empty: " + e.getMessage());
     }
+    return false;
+  }
+
+  private static Claims extractAllClaims(String token) {
+    if (validateToken(token))
+      return Jwts.parserBuilder()
+          .setSigningKey(SECRET)
+          .build()
+          .parseClaimsJws(token)
+          .getBody();
+    return null;
   }
 
   public static <T> T extractClaim(String token,
-                                   Function<Claims, T> claimsResolver) {
-    final Optional<Claims> claims = extractAllClaims(token);
-    return claims.map(claimsResolver).orElse(null);
+                                   String name, Class<T> type) {
+    final Claims claims = extractAllClaims(token);
+    final T res = claims.get(name, type);
+    if(res == null) return null;
+    return res;
   }
 }

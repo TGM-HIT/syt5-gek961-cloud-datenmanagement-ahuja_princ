@@ -24,13 +24,12 @@ import io.jsonwebtoken.Claims;
 @RestController
 @RequestMapping("/auth/admin/register")
 public class RegistrationController {
-  JWT jwtService = new JWT();
   @Autowired
   private UserRepository userRepository;
 
   @PostMapping
   public ResponseEntity<?> register(@RequestBody RegistryRequest request) {
-    if(jwtService.isTokenExpired(request.getToken())) return ResponseEntity.status(403).body("Forbidden: You don't have permission to access this resource.");
+    if(JWT.isTokenExpired(request.getToken())) return ResponseEntity.status(403).body("Forbidden: You don't have permission to access this resource.");
     String[] roles = jwtService.extractClaim(request.getToken(), claims -> claims.get("roles", String[].class));
     for(String e : roles) {
       if(e == "ADMIN") {
