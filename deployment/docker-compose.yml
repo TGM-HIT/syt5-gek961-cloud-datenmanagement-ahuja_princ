@@ -12,8 +12,9 @@ services:
     restart: always
 
   spring-boot-app:
-    image: jelastic/maven:3.9.9-temurinjdk-21.0.2-almalinux-9 # Update to a valid Maven image
+    image: jelastic/maven:3.9.9-temurinjdk-21.0.2-almalinux-9
     container_name: spring-app
+    #Repostirory wird geklont, maven compiled zu jar und jar ausgeführt
     command: >
       sh -c "git clone https://github.com/TGM-HIT/syt5-gek961-cloud-datenmanagement-ahuja_princ.git && cd syt5-gek961-cloud-datenmanagement-ahuja_princ && mvn clean install && cd target && java -jar GK961-0.0.1-SNAPSHOT.jar"  # Adjust as necessary
     depends_on:
