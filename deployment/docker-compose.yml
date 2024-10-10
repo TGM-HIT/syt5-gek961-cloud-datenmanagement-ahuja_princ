@@ -12,7 +12,8 @@ services:
     restart: always
 
   spring-boot-app:
-    image: jelastic/maven:3.9.9-temurinjdk-21.0.2-almalinux-9
+    image: jelastic/maven:3.9.9-temurinjdk-17.0.12-almalinux-9
+
     container_name: spring-app
     #Repostirory wird geklont, maven compiled zu jar und jar ausgeführt
     command: >
