@@ -29,7 +29,14 @@ Es ist ein Webservice zu implementieren, welches eine einfache Benutzerverwaltun
 3. Welche Datenbasis bietet sich für einen solchen Use-Case an?
    * Eine relationale Datenbank wie *PostgreSQL* oder *MySQL*, da diese Transaktionssicherheit und Datenintegrität liefern.
 4. Welche Erfordernisse bezüglich der Datenbasis sollten hier bedacht werden?
+   * Datenintegrität
+   * Wiederherstellbarkeit (Backup)
+   * Sicherheit
 5. Verschiedene Frameworks bieten schnelle Umsetzungsmöglichkeiten, welche Eckpunkte müssen jedoch bei einer öffentlichen Bereitstellung (Production) von solchen Services beachtet werden?
+   * Skalierbarkeit
+   * Zugriffssicherheit
+   * Security
+   * Rate-Limiting
 
 ## Durchführung
 
@@ -41,6 +48,12 @@ Für die Registrierung wird HTTP **POST** verwendet, da diese Methode für "Form
 
 #### Authentication
 
+### Deployment
+Das Projekt (Datenbank Postgres & Springboot Application) wird über docker-compose deployed. Hierfür wird das *postgres:latest* und das *jelastic/maven:3.9.9-temurinjdk-21.0.2-almalinux-9* Image.
+
+Notiz: Für das deployment des Springboot Programmes wurden wir von Melissa Wallpach und Markus Stuppnig unterstützt.
+
+Das [docker-compose.yml](/deployment/docker-compose.yml) File enthält die dafür notwendigen Konfigurationsschritte, wie DB Password oder notwendige Ports.
 ## Quellen
 [1], *Red Hat*, **Red Hat Redaktion**, 10.10.2024, [Was ist eine REST-API? – Red Hat](https://www.redhat.com/de/topics/api/what-is-a-rest-api)
 
@@ -49,3 +62,5 @@ Für die Registrierung wird HTTP **POST** verwendet, da diese Methode für "Form
 [3], *Developers Mozilla*, **MDN contributors**, 10.10.2024, [HTTP response status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 ## Prompt-Verzeichnis
 [a] ChatGPT, *Model-4o*, "Schreibe ein init.sql für die Table mit folgenden Attributen in postgres: Diese soll mit einem Namen, einer eMail-Adresse als BenutzerID, einer Liste an Rollen (ADMIN, READER, MODERATOR) und einem Passwort erfolgen"
+
+[b] Phind, *Fast-model*, "Mein Container für springboot stoppt automatisch nach dem maven build und führt die jar nicht aus: spring-app ...Fehlermeldung"
