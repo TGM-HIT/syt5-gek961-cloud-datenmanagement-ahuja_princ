@@ -1,19 +1,18 @@
 package at.ahujaprinc.gk961.controller;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import at.ahujaprinc.gk961.JWT;
+import at.ahujaprinc.gk961.Utilities;
 import at.ahujaprinc.gk961.model.LoginRequest;
 import at.ahujaprinc.gk961.model.LoginResponse;
 import at.ahujaprinc.gk961.model.User;
 import at.ahujaprinc.gk961.model.UserRepository;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * RegistrationController
@@ -21,21 +20,22 @@ import at.ahujaprinc.gk961.model.UserRepository;
 @RestController
 @RequestMapping("/auth/signin")
 public class LoginController {
-  JWT jwtService = new JWT();
-  @Autowired
-  private UserRepository userRepository;
+  JWT jwtService;
+  @Autowired private UserRepository userRepository;
 
   @PostMapping
-  public LoginResponse signin(@RequestBody LoginRequest request) {
-       System.out.println("Looking for " + request.getUsername());
+  public ResponseEntity<?> signin(@RequestBody LoginRequest request) {
     Optional<User> u = userRepository.findByUsername(request.getUsername());
-    if(u.get() == null) {
-      return null;
+    // If user not found exit
+    if (u.get() == null) {
+      return ResponseEntity.status(404).body("Invalid credentials");
     }
-    if(u.get().getPassword() == request.getPassword().hashCode()) {
-      System.out.println("Found user, returning token");
-      return new LoginResponse(jwtService.generateToken(u.get()));
+    // hash password and compare with DB, return token if its fit
+    String hashedPassword = Utilities.hashString(request.getPassword());
+    if (u.get().getPassword() == hashedPassword) {
+      return ResponseEntity.status(200).body(
+          new LoginResponse(JWT.generateToken(u.get())));
     }
-    return null;
+    return ResponseEntity.status(404).body("Invalid credentials");
   }
 }

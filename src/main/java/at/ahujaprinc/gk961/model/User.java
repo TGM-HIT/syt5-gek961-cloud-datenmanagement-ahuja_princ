@@ -23,10 +23,10 @@ public class User {
   private int id;
   private String name;
   private String username;
-  private int password;
+  private String password;
   private String[] roles;
 
-  public User(String name, String username, int password, String[] roles) {
+  public User(String name, String username, String password, String[] roles) {
     this.name = name;
     this.username = username;
     this.password = password;
