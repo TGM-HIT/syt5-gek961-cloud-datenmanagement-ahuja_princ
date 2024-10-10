@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
- * RegistryRequest
+ * LoginRequest
  */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistryRequest {
-  private String username;
-  private String[] roles;
-  private String password;
-  private String initiator;
+public class LoginResponse {
+  private String jwa;
 }
