@@ -3,6 +3,7 @@ package at.ahujaprinc.gk961;
 import at.ahujaprinc.gk961.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,12 +27,11 @@ public class JWT {
   public static String generateToken(User user) {
     Map<String, Object> claims = new HashMap<>();
     claims.put("name", user.getName());
-    claims.put("roles", user.getUsername());
 
     return Jwts.builder()
-        .setSubject(user.getUsername()) // Username as the subject
         .setClaims(claims)
-        .setIssuedAt(new Date()) // Issued time
+        .setSubject(user.getUsername()) // Username as the subject
+        .setIssuedAt(new Date())        // Issued time
         .setExpiration(
             new Date(System.currentTimeMillis() + duration)) // Expiration time
         .signWith(SECRET) // Signing the token
@@ -54,6 +54,8 @@ public class JWT {
     } catch (IllegalArgumentException e) {
       // Token is null or empty
       System.err.println("JWT token is empty: " + e.getMessage());
+    } catch (JwtException e) {
+      System.err.println(e);
     }
     return false;
   }
@@ -68,11 +70,16 @@ public class JWT {
     return null;
   }
 
-  public static <T> T extractClaim(String token,
-                                   String name, Class<T> type) {
+  public static <T> T extractClaim(String token, String name, Class<T> type) {
     final Claims claims = extractAllClaims(token);
     final T res = claims.get(name, type);
-    if(res == null) return null;
+    if (res == null)
+      return null;
     return res;
+  }
+
+  public static String extractSubject(String token) {
+    final Claims claims = extractAllClaims(token);
+    return claims.getSubject();
   }
 }

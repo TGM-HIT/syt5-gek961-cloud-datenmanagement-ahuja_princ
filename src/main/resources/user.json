@@ -1,0 +1,20 @@
+[
+  {
+      "name": "Ankush Ahuja",
+      "username": "contact@ahuja.app",
+      "password": "test123",
+      "roles": ["ADMIN", "MODERATOR", "USER"]
+    },
+    {
+      "name": "Benjamin Princ",
+      "username": "bprinc@student.tgm.ac.at",
+      "password": "test456",
+      "roles": ["MODERATOR", "USER"]
+    },
+    {
+      "name": "Michael Borko",
+      "username": "mborko@tgm.ac.at",
+      "password": "zhawos",
+      "roles": ["USER"]
+    }
+]

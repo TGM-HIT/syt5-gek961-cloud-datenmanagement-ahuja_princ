@@ -14,6 +14,6 @@ public class RegistryRequest {
   private String name;
   private String username;
   private String[] roles;
-  private int password;
+  private String password;
   private String token;
 }
