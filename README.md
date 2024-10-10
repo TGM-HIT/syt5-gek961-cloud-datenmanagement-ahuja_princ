@@ -40,13 +40,17 @@ Es ist ein Webservice zu implementieren, welches eine einfache Benutzerverwaltun
 
 ## Durchführung
 
+### Java Dokumentation
+
 ### RFC Spezifikationen
 #### Registrierung
 Für die Registrierung wird HTTP **POST** verwendet, da diese Methode für "Formulareingaben" an einem Webserver verantwortlich ist[2].
 
 #### Login
+Für den Login wird HTTP **PUT** verwendet, da bei erfolgreichem Login die User Authentikation geändert wird[2].
 
 #### Authentication
+Um die Berechtigung zu überprüfen wird **GET** verwendet, da am Server die Berechtigung angefragt wird[2].
 
 ### Deployment
 Das Projekt (Datenbank Postgres & Springboot Application) wird über docker-compose deployed. Hierfür wird das *postgres:latest* und das *jelastic/maven:3.9.9-temurinjdk-21.0.2-almalinux-9* Image.
@@ -54,6 +58,11 @@ Das Projekt (Datenbank Postgres & Springboot Application) wird über docker-comp
 Notiz: Für das deployment des Springboot Programmes wurden wir von Melissa Wallpach und Markus Stuppnig unterstützt.
 
 Das [docker-compose.yml](/deployment/docker-compose.yml) File enthält die dafür notwendigen Konfigurationsschritte, wie DB Password oder notwendige Ports.
+
+#### Fehler
+Zuerst wurde nur die JAR erstellt, jedoch hat der Server dann ein Exit mit Code 0 gehabt, weil das JAR-File nicht ausgeführt wurde. [b]
+
+Lösung: Nach build in */target* wechseln und jar ausführen ```java -jar [filename].jar```
 ## Quellen
 [1], *Red Hat*, **Red Hat Redaktion**, 10.10.2024, [Was ist eine REST-API? – Red Hat](https://www.redhat.com/de/topics/api/what-is-a-rest-api)
 
