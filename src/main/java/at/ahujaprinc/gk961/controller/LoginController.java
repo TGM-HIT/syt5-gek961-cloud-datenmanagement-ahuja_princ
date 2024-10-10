@@ -27,9 +27,13 @@ public class LoginController {
 
   @PostMapping
   public LoginResponse signin(@RequestBody LoginRequest request) {
+       System.out.println("Looking for " + request.getUsername());
     Optional<User> u = userRepository.findByUsername(request.getUsername());
-    if(u.isEmpty()) return null;
+    if(u.get() == null) {
+      return null;
+    }
     if(u.get().getPassword() == request.getPassword().hashCode()) {
+      System.out.println("Found user, returning token");
       return new LoginResponse(jwtService.generateToken(u.get()));
     }
     return null;

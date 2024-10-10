@@ -35,7 +35,7 @@ public class RegistrationController {
     for(String e : roles) {
       if(e == "ADMIN") {
         userRepository.saveAndFlush(new User(request.getName(), request.getUsername(), request.getPassword(), request.getRoles()));
-        return null;
+        return ResponseEntity.status(200).body(new RegistryResponse(true));
       }
     }
     return ResponseEntity.status(403).body("Forbidden: You don't have permission to access this resource.");
