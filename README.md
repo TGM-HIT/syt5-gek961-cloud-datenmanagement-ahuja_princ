@@ -63,10 +63,16 @@ Das [docker-compose.yml](/deployment/docker-compose.yml) File enthält die dafü
 
 Nach dem deployen ist der `PUT` Request an `/init` zu schicken, dies wird einen Basis Datensatz aus der JSON in resources/user.json in die DB laden.
 
-#### Fehler
+#### 1. Fehler
 Zuerst wurde nur die JAR erstellt, jedoch hat der Server dann ein Exit mit Code 0 gehabt, weil das JAR-File nicht ausgeführt wurde. [b]
 
-Lösung: Nach build in */target* wechseln und jar ausführen ```java -jar [filename].jar```
+**Lösung**: Nach build in */target* wechseln und jar ausführen ```java -jar [filename].jar```
+
+#### 2. Fehler
+Springboot Applikation in eigenem Container konnte keine Verbindung zur Postgres DB herstellen.
+
+**Lösung**: Statt *localhost* oder der IP des Containers verwendet man den Service Namen, welcher im docker-compose File deklariert wird: ```spring.datasource.url=jdbc:postgresql://db:5432/authentication``` In diesem Fall heißt der Service ***db*** und die database ***authentication***.
+
 ## Quellen
 [1], *Red Hat*, **Red Hat Redaktion**, 10.10.2024, [Was ist eine REST-API? – Red Hat](https://www.redhat.com/de/topics/api/what-is-a-rest-api)
 
