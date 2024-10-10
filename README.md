@@ -3,6 +3,23 @@
 
 **Datum**: 10.10.2024
 
+## Inhaltsverzeichnis
+  - [Einführung](#einführung)
+    - [Ziele](#ziele)
+    - [Aufgabenstellung](#aufgabenstellung)
+    - [Fragestellungen](#fragestellungen)
+  - [Durchführung](#durchführung)
+    - [Java Dokumentation](#java-dokumentation)
+    - [RFC Spezifikationen](#rfc-spezifikationen)
+      - [Registrierung](#registrierung)
+      - [Login](#login)
+      - [Authentication](#authentication)
+    - [Deployment](#deployment)
+      - [1. Fehler](#1-fehler)
+      - [2. Fehler](#2-fehler)
+  - [Quellen](#quellen)
+  - [Prompt-Verzeichnis](#prompt-verzeichnis)
+
 ## Einführung
 Diese Übung zeigt die Anwendung von verteilten Webservices an einer simplen Anforderung.
 Ausarbeitung der [Aufgabe GK961](https://elearning.tgm.ac.at/mod/assign/view.php?id=136679).
