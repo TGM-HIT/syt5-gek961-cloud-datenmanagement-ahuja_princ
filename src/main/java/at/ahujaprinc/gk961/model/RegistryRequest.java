@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegistryRequest {
+  private String name;
   private String username;
   private String[] roles;
-  private String password;
+  private int password;
   private String token;
 }

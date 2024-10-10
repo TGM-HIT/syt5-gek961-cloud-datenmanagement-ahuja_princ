@@ -14,6 +14,8 @@ import at.ahujaprinc.gk961.model.VerifyResponse;
 @RestController
 @RequestMapping("/auth/verify")
 public class VerifyController {
+  JWT jwtService = new JWT();
+
   @GetMapping
   public VerifyResponse verify(@RequestBody VerifyRequest request) {
     return null;

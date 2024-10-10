@@ -21,6 +21,13 @@ public class User {
   private int id;
   private String name;
   private String username;
-  private String password;
+  private int password;
   private String[] roles;
+
+  public User(String name, String username, int password, String[] roles) {
+    this.name = name;
+    this.username = username;
+    this.password = password;
+    this.roles = roles;
+    }
 }
