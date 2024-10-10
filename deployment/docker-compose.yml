@@ -21,7 +21,7 @@ services:
     command: >
       sh -c "git clone https://github.com/TGM-HIT/syt5-gek961-cloud-datenmanagement-ahuja_princ.git && cd syt5-gek961-cloud-datenmanagement-ahuja_princ && mvn clean install && cd target && java -jar GK961-0.0.1-SNAPSHOT.jar"  # Adjust as necessary
     depends_on:
-      - postgres
+      - db
     networks:
       - appnet
 
