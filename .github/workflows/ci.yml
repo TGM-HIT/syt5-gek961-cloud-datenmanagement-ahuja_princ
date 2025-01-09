@@ -22,11 +22,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       
-      - name: Run tests
-        run: mvn test
-
+      - name: Build and Run Tests
+        run: mvn test --batch-mode --fail-at-end
+ 
       - name: Publish Test Report
-        if: ${{ always() }}
+        if: success() || failure()
         uses: scacap/action-surefire-report@v1
 
       - name: Build with Maven
