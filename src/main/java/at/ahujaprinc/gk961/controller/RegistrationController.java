@@ -1,4 +1,3 @@
-
 package at.ahujaprinc.gk961.controller;
 
 import at.ahujaprinc.gk961.JWT;
