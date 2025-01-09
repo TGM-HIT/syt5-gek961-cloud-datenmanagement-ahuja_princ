@@ -8,6 +8,7 @@ import at.ahujaprinc.gk961.model.UserRepository;
 import at.ahujaprinc.gk961.service.RateLimiterService;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,17 +28,17 @@ public class LoginController {
   @PostMapping
   public ResponseEntity<?> signin(@RequestBody LoginRequest request) {
     if (!rateLimiterService.use(request.getUsername()))
-      return ResponseEntity.status(429).body("Too many requests!");
+      return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body("Too many requests!");
 
     Optional<User> u = userRepository.findByUsername(request.getUsername());
     // If user not found exit
     if (!u.isEmpty()) {
       // hash password and compare with DB, return token if its fit
       if (Utilities.checkHash(request.getPassword(), u.get().getPassword())) {
-        return ResponseEntity.status(200).body(JWT.generateToken(u.get()));
+        return ResponseEntity.status(HttpStatus.OK.value()).body(JWT.generateToken(u.get()));
       }
     }
 
-    return ResponseEntity.status(404).body("Invalid credentials");
+    return ResponseEntity.status(HttpStatus.OK.value()).body("Invalid credentials");
   }
 }

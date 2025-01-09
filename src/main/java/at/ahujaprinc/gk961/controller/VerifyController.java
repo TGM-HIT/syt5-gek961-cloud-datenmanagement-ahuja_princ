@@ -6,6 +6,7 @@ import at.ahujaprinc.gk961.model.UserRepository;
 import at.ahujaprinc.gk961.model.VerifyRequest;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,12 +34,12 @@ public class VerifyController {
         for (String role : roles) {
           appendedRoles.append(role).append(" ");
         }
-        return ResponseEntity.status(200).body(
+        return ResponseEntity.status(HttpStatus.OK.value()).body(
             "Hello " + name + "! Your roles are " + appendedRoles);
       }
     }
 
-    return ResponseEntity.status(403).body(
+    return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
         "Forbidden: You don't have permission to access this resource.");
   }
 }

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class RegistrationController {
     String token = request.getToken();
 
     if (!rateLimiterService.use(token))
-      return ResponseEntity.status(429).body("Too many requests!");
+      return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body("Too many requests!");
 
     if (JWT.validateToken(token)) {
       String adminUser = JWT.extractSubject(token);
@@ -68,11 +69,11 @@ public class RegistrationController {
                   ACTIVATION_CODE_EXPIRATION_MINUTES +
                   " minutes. Please use it to activate your account.");
         }
-        return ResponseEntity.status(200).body(
+        return ResponseEntity.status(HttpStatus.OK.value()).body(
             "Please check your inbox for the activation code.");
       }
     }
-    return ResponseEntity.status(403).body(
+    return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
         "Forbidden: You don't have permission to access this resource.");
   }
 
@@ -80,12 +81,12 @@ public class RegistrationController {
   public ResponseEntity<?> activateAccount(@RequestBody ActivationRequest req) {
     ActivationDetails details = activationStorage.get(req.getCode());
     if (details != null && !rateLimiterService.use(details.request.getToken()))
-      return ResponseEntity.status(429).body("Too many requests!");
+      return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body("Too many requests!");
 
     if (details != null) {
       if (Instant.now().isAfter(details.expiryTime)) {
         activationStorage.remove(req.getCode());
-        return ResponseEntity.status(400).body("Activation code has expired.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body("Activation code has expired.");
       }
 
       RegistryRequest request = details.request;
@@ -101,11 +102,11 @@ public class RegistrationController {
             request.getUsername(), "Welcome to Our Service!",
             "Your account (" + request.getUsername() +
                 ") has been successfully activated. You can now log in.");
-        return ResponseEntity.status(200).body(
+        return ResponseEntity.status(HttpStatus.OK.value()).body(
             "Account successfully activated!");
       }
     }
-    return ResponseEntity.status(400).body(
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(
         "Invalid activation code or username.");
   }
 
