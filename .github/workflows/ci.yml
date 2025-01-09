@@ -28,15 +28,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
            
-      - name: Archive Test Results
-        if: always()
-        run: |
-          mkdir -p test-reports
-          mv target/surefire-reports/*.xml test-reports/
-        continue-on-error: true
-      
       - name: Upload Test Reports as Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
-          path: target/reports/
+          path: ./target/reports/
