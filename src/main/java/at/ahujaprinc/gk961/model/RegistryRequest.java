@@ -5,14 +5,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
  * RegistryRequest
  */
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class RegistryRequest {
   @NotBlank private String name;
   @NotBlank @Email(message = "Invalid email address") private String username;

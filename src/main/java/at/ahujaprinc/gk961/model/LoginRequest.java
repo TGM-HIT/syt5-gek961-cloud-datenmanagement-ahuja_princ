@@ -6,15 +6,16 @@ import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
  * LoginRequest
  */
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class LoginRequest {
   @NotBlank @Email(message = "Invalid email address") private String username;
 
