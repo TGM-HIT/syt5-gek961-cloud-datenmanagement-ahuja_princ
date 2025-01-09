@@ -1,9 +1,12 @@
 package at.ahujaprinc.gk961.model;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 /**
  * LoginRequest
@@ -13,6 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
-  private String username;
+  @NotBlank @Email(message = "Invalid email address") private String username;
+
+  @NotBlank
+  @Pattern(regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>])[A-Za-z0-9!@#$%" +
+                    "^&*(),.?\":{}|<>]{8,}$",
+           message = "Password must be at least 8 characters long, contain " +
+                     "at least one number, and one special character.")
   private String password;
 }

@@ -5,6 +5,7 @@ import at.ahujaprinc.gk961.Utilities;
 import at.ahujaprinc.gk961.model.LoginRequest;
 import at.ahujaprinc.gk961.model.User;
 import at.ahujaprinc.gk961.model.UserRepository;
+import at.ahujaprinc.gk961.service.RateLimiterService;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
   JWT jwtService;
   @Autowired private UserRepository userRepository;
+  @Autowired private RateLimiterService rateLimiterService;
 
   @PostMapping
   public ResponseEntity<?> signin(@RequestBody LoginRequest request) {
+    if (!rateLimiterService.use(request.getUsername()))
+      return ResponseEntity.status(429).body("Too many requests!");
+
     Optional<User> u = userRepository.findByUsername(request.getUsername());
     // If user not found exit
-    if (u.isEmpty()) {
-      return ResponseEntity.status(404).body("Invalid credentials");
-    }
-    // hash password and compare with DB, return token if its fit
-    String hashedPassword = Utilities.hashString(request.getPassword());
-    if (u.get().getPassword().equals(hashedPassword)) {
-      return ResponseEntity.status(200).body(JWT.generateToken(u.get()));
+    if (!u.isEmpty()) {
+      // hash password and compare with DB, return token if its fit
+      if (Utilities.checkHash(request.getPassword(), u.get().getPassword())) {
+        return ResponseEntity.status(200).body(JWT.generateToken(u.get()));
+      }
     }
 
     return ResponseEntity.status(404).body("Invalid credentials");

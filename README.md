@@ -39,8 +39,8 @@ Es ist ein Webservice zu implementieren, welches eine einfache Benutzerverwaltun
     * Stateless communication: Der Server speichert keinen Zustand der Client-Anfrage.
 2. Wie stehen diese mit den HTTP-Befehlen in Verbindung?
    * **GET**: Ruft Daten einer Ressource ab, ohne diese zu verändern. *Lesezugriff* 
-   * **POST**: Neue Ressourcen am Server anlegen, mehrere Anfragen können zu unterschiedlichen Ergebnissen führen. *Schreibzugriff*
-   * **PUT**: Aktualisiert oder erstellt eine Ressource. Mehrfache Anfragen liefern das selbe Ergebnis. *Update*
+   * **PUT**: Neue Ressourcen am Server anlegen. *Schreibzugriff*
+   * **POST**: Aktualisiert oder erstellt eine Ressource. *Update*
    * **PATCH**: Aktualisiert eine Ressource teilweise.
    * **DELETE**: Löscht eine Ressource vom Server.
 3. Welche Datenbasis bietet sich für einen solchen Use-Case an?
